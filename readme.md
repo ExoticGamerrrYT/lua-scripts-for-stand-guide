@@ -78,16 +78,10 @@ If you want to make lua scripts for stand you will need some things to know. The
 ],
 ```
 
-6. Now take my [extension](), extract it and copy that folder in `C:\Users\[user]\.vscode\extensions`.
+6. Now take my [extension](https://github.com/ExoticGamerrrYT/stand-lua-snippets-vscode-extension), extract it in a folder and copy that folder in `C:\Users\[user]\.vscode\extensions`.
 7. Reload VSCode.
 
-## Resources
-
-Now you will make your first lua script for Stand, and you will need resources to look at:
-
-* [Stand API](https://stand.gg/help/lua-api-documentation)
-* [GTA5 Natives Reference](https://nativedb.dotindustries.dev/natives)
-
+## Basics
 You need to know that at first in the script you will write this almost always:
 ```
 util.keep_running() --keeps script running
@@ -98,11 +92,23 @@ util.require_natives(1651208000) --tells stand to get that natives from the stan
 
 Look at this script:
 ```
+util.keep_running()
+util.require_natives(1640181023)
 
+local _player = PLAYER.GET_PLAYER_PED(players.user())
+
+menu.action(menu.my_root(), "Teleport Button", {}, "This Button will teleport you", function()
+    --Here we write what the button will do
+    ENTITY.SET_ENTITY_COORDS(_player, 0, 100, 100, false, false, false, false)
+
+end)
 ```
-This script makes a button in stand and when you press it you are teleported to the following coordinates. But first we need to tell stand what we are moving. Because of that, we created a local variable called `_player`, that gets our player ped. But why we write `PLAYER.GET_PLAYER_PED(players.user())`, we write that because we can't write `GET_PLAYER_PED()`, we have to call it from the `PLAYER` namespace.
+This script makes a button in stand and when you press it you are teleported to the following coordinates. But first we need to tell stand what we are moving. Because of that, we created a local variable called `_player`, that gets our player ped. But why we write `PLAYER.GET_PLAYER_PED(players.user())`, we write that because we can't write `GET_PLAYER_PED()`, we have to call it from the `PLAYER` namespace. Then we use `ENTITY.SET_ENTITY_COORDS()`, and we select our player variable, and x, y, z coords, the last boolean is if we want to clear the area, and we dont want it, because we can get kicked. And the other three booleans are the invert axis, wich we dont want.
 
-Now lets talk about the button. We create a button with `menu.action(int parent, string menu_name, table<any, string> command_names, string help_text, function on_click, ?function on_command = nil, ?string syntax = nil)`.
+Now lets talk about the button. We create a button with
+```
+menu.action(int parent, string menu_name, table<any, string> command_names, string help_text, function on_click, ?function on_command = nil, ?string syntax = nil)
+```
 
 This is more simple than we think:
 - `int` parent
@@ -122,3 +128,9 @@ This is more simple than we think:
 - `?string` syntax `= nil`
     - This changes what shows up in help text of the menu, like `Command: <string>`. If you put `"aaa"` in here, it will display `Command: aaa` instead of `Command: <commandname>`.
 
+## Resources
+
+Now you will make your first lua script for Stand, and you will need resources to look at:
+
+* [Stand API](https://stand.gg/help/lua-api-documentation)
+* [GTA5 Natives Reference](https://nativedb.dotindustries.dev/natives)
